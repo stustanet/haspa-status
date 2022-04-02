@@ -1,0 +1,7 @@
+.idea
+.pyc
+__pycache__
+
+# project specific
+html/current.json
+html/index.html
