@@ -37,7 +37,7 @@
       }
 
       body {
-	position: relative;
+        position: relative;
       }
 
       body.offen {
@@ -49,9 +49,9 @@
 
       div {
         position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
       }
 
       .offen div:before {
@@ -97,10 +97,11 @@
 
       setInterval(function() {
         fetchJSONFile('current.json?time=' + Math.floor(Date.now() / 1000), function(data){
+          document.title = 'Hackerspace: ' + data.state;
           document.body.className = data.state;
           document.getElementById('last_update').innerHTML = 'Letzte Aktualisierung: ' + data.last_update;
         });
-      }, 4200);
+      }, 60000);
     </script>
   </body>
 </html>

@@ -78,6 +78,7 @@ class HaspaStatus:
         The templates and the update procedure have been designed by pt, I do not want to
         Change any old and glorious routines!
         """
+        self.log.info(f"Setting State: {is_open}")
         for template in TEMPLATE_PATH.glob('*.tpl'):
             outfile = OUTPUT_PATH / template.stem
             with open(str(template), 'r') as orig:
@@ -126,7 +127,14 @@ class HaspaStatus:
 
     def start(self):
         """ Connect and start the mqtt machine """
-        self.mqtt.connect(self.config.mqtt_host, port=self.config.mqtt_port)
+        while not self.mqtt.is_connected():
+            try:
+                self.mqtt.connect(self.config.mqtt_host, port=self.config.mqtt_port)
+            except OSError as e:
+                # mqtt host may be offline, try again in a minute
+                self.log.warning(f"Could not connect to MQTT Server {e}. Trying again in 120s")
+                time.sleep(120)
+
         self.log.info("Successfully connected to %s", self.config.mqtt_host)
 
         self.mqtt.loop_forever()

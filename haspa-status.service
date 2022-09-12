@@ -1,0 +1,12 @@
+[Unit]
+Description=Haspa Status Page updater
+After=network.target
+
+[Service]
+Type=simple
+User=haspa-status
+WorkingDirectory=/srv/haspa-status
+ExecStart=/usr/bin/env python3 haspa_status.py --mqtt-username REDACTED --mqtt-password REDACTED --use-tls --template-path /srv/haspa_status
+
+[Install]
+WantedBy=multi-user.target
