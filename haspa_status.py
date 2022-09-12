@@ -127,9 +127,10 @@ class HaspaStatus:
 
     def start(self):
         """ Connect and start the mqtt machine """
-        while not self.mqtt.is_connected():
+        while True:
             try:
                 self.mqtt.connect(self.config.mqtt_host, port=self.config.mqtt_port)
+                break
             except OSError as e:
                 # mqtt host may be offline, try again in a minute
                 self.log.warning(f"Could not connect to MQTT Server {e}. Trying again in 120s")
